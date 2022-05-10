@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import logo from '../assets/amazon_logo_full.png'
@@ -6,12 +6,17 @@ import logoFull from '../assets/amazon_logo_full.png'
 import { FaBox } from 'react-icons/fa'
 import { BsFillBookmarkFill } from 'react-icons/bs'
 import { BsFillPersonFill } from 'react-icons/bs'
-import { AmazonContext } from '../context/AmazonContext'
+import { MarketContext } from '../context/MarketContext'
 import { AiOutlineHistory } from 'react-icons/ai'
 import { ConnectButton } from 'web3uikit'
 
-const isAuthenticated = true
-const username = 'Michael'
+const {            
+    isAuthenticated,
+    nickname,
+    setNickname,
+    username,
+    handleSetUsername,
+} = useContext(MarketContext)
 
 const Sidebar = () => {
     const styles = {
@@ -45,7 +50,7 @@ const Sidebar = () => {
                             width={100}
                             />
                         </div>
-                        {/* if person doesn't have username, have them input their username */}
+                        {/* if person doesn't have username, have them input their username/connect wallet */}
                         {/* if person has a username then say welcome to that username */}
                         {!username ? (
                             <>
@@ -54,13 +59,13 @@ const Sidebar = () => {
                                     type='text'
                                     placeholder='Username...'
                                     className={styles.usernameInput}
-                                    // value={nickname}
-                                    // onChange={e => setNickname(e.target.value)}
+                                    value={nickname}
+                                    onChange={e => setNickname(e.target.value)}
                                     />
                                 </div>
                                 <button
                                 className={styles.setNickname}
-                                // onClick={handleSetUsername}
+                                onClick={handleSetUsername}
                                 >
                                 Set Nickname    
                                 </button>
