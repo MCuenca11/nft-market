@@ -5,6 +5,7 @@ import { CgMenuGridO } from 'react-icons/cg'
 import { IoMdSearch } from 'react-icons/io'
 import { FaCoins } from 'react-icons/fa'
 import { MarketContext } from '../context/MarketContext'
+import BuyModal from './BuyModal'
 import {
     ModalProvider,
     Modal,
@@ -25,7 +26,7 @@ const Header = () => {
         coins: `ml-[10px]`,
     }
 
-const { balance, buyTokens, getBalance } = useContext(AmazonContext)
+const { balance, buyTokens, getBalance } = useContext(MarketContext)
 const { openModal, isModalOpen, closeModal } = useModal()
   return (
     <ModalProvider>

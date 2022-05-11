@@ -30,6 +30,27 @@ export const MarketProvider = ({ children }) => {
         isLoading: assetsDataIsLoading,
       } = useMoralisQuery('assets')
 
+    const getBalance = async () => {
+        try {
+            if (!isAuthenticated || !currentAccount) return
+                const options = {
+                contractAddress: MarketCoinAddress,
+                // from open zeppelin library
+                functionName: 'balanceOf',
+                abi: MarketAbi,
+                params: {
+                account: currentAccount,
+                },
+            }
+            if (isWeb3Enabled) {
+                const response = await Moralis.executeFunction(options)
+                console.log(response.toString())
+                setBalance(response.toString())
+            }
+        } catch (error) {
+          console.log(error)
+        }
+    }  
 
     useEffect(() => {
         ;(async() => {
@@ -41,7 +62,7 @@ export const MarketProvider = ({ children }) => {
                 setCurrentAccount(account)
             }
         })()
-    }, [isAuthenticated, user, username, currentAccount])
+    }, [isAuthenticated, user, username, currentAccount, getBalance])
 
     useEffect(() => {
         ;(async() => {
@@ -64,28 +85,6 @@ export const MarketProvider = ({ children }) => {
             }
         } else {
             console.log('No user')
-        }
-    }
-
-    const getBalance = async () => {
-        try {
-          if (!isAuthenticated || !currentAccount) return
-          const options = {
-            contractAddress: MarketCoinAddress,
-            // from open zeppelin library
-            functionName: 'balanceOf',
-            abi: MarketAbi,
-            params: {
-              account: currentAccount,
-            },
-          }
-          if (isWeb3Enabled) {
-            const response = await Moralis.executeFunction(options)
-            console.log(response.toString())
-            setBalance(response.toString())
-          }
-        } catch (error) {
-          console.log(error)
         }
     }
 
@@ -132,6 +131,7 @@ export const MarketProvider = ({ children }) => {
         }
       }
 
+    // global variables  
     return (
         <MarketContext.Provider
         value = {{
