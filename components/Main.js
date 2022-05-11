@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { MarketContext } from '../context/MarketContext'
 import Cards from './Cards'
+import Header from '../components/Header'
 
 const Main = () => {
     const styles = {
@@ -11,8 +12,8 @@ const Main = () => {
     }
     return (
         <div className={styles.container}>
-          {/* <Header />
-          <Featured /> */}
+          <Header />
+          {/* <Featured /> */}
           <Cards />
         </div>
     )
