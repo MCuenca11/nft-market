@@ -6,6 +6,7 @@ export const MarketContext = createContext()
 export const MarketProvider = ({ children }) => {
     const [username, setUsername] = useState('')
     const [nickname, setNickname] = useState('')
+    const [assets, setAssets] = useState([])
 
     const {
         authenticate,
@@ -15,12 +16,12 @@ export const MarketProvider = ({ children }) => {
         isWeb3Enabled,
     } = useMoralis()
 
-    // useEffect(async () => {
-    //     console.log(assetsData)
-    //     await enableWeb3()
-    //     await getAssets()
-    //     await getOwnedAssets()
-    //   }, [userData, assetsData, assetsDataIsLoading, userDataIsLoading])
+    const {
+        data: assetsData,
+        error: assetsDataError,
+        isLoading: assetsDataIsLoading,
+      } = useMoralisQuery('assets')
+
 
     useEffect(() => {
         ;(async() => {
@@ -30,6 +31,14 @@ export const MarketProvider = ({ children }) => {
             }
         })()
     }, [isAuthenticated, user, username])
+
+    useEffect(() => {
+        ;(async() => {
+            if(isWeb3Enabled) {
+                await getAssets()
+            }
+        })()
+    }, [isWeb3Enabled, assetsData, assetsDataIsLoading])
 
     const handleSetUsername = () => {
         if(user) {
@@ -47,6 +56,18 @@ export const MarketProvider = ({ children }) => {
         }
     }
 
+    const getAssets = async () => {
+        try {
+          await enableWeb3()
+          // const query = new Moralis.Query('assets')
+          // const results = await query.find()
+    
+          setAssets(assetsData)
+        } catch (error) {
+          console.log(error)
+        }
+      }
+
     return (
         <MarketContext.Provider
         value = {{
@@ -55,6 +76,7 @@ export const MarketProvider = ({ children }) => {
             setNickname,
             username,
             handleSetUsername,
+            assets,
         }}
         >
             {children}

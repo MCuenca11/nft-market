@@ -15,6 +15,7 @@ const Cards = () => {
       <div className={styles.title}>New Release</div>
       <div className={styles.cards}>
         <div className={styles.cards}>
+        {/* for each asset, make a card component */}
           {assets.map(item => {
             let asset = item.attributes
 
