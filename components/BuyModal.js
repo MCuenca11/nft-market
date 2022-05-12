@@ -29,7 +29,6 @@ const BuyModal = ({ close, buyTokens }) => {
     etherscanLink,
     setEtherscanLink,
   } = useContext(MarketContext)
-
   useEffect(() => {
     calculatePrice()
   }, [tokenAmount])
@@ -71,7 +70,6 @@ const BuyModal = ({ close, buyTokens }) => {
               type='text'
               placeholder='Amount...'
               className={styles.inputBox}
-              // update amount to include input amount
               onChange={e => setTokenAmount(e.target.value)}
               value={tokenAmount}
             />
